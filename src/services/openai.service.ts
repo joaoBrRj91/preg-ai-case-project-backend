@@ -1,4 +1,5 @@
 import { OpenAI } from "openai";
+import generateContentToLLM from "../utils/Prompts/promptsTemplates";
 
 class OpenAIService {
   private client: OpenAI;
@@ -11,7 +12,11 @@ class OpenAIService {
     this.client = new OpenAI({ apiKey });
   }
 
-  async generateResponse(prompt: string): Promise<{
+  async generateResponse(
+    title: string,
+    style: string,
+    targetAudience: string
+  ): Promise<{
     content: string;
     model: string;
     promptTokens: number;
@@ -19,7 +24,7 @@ class OpenAIService {
   }> {
     const response = await this.client.responses.create({
       model: "gpt-4o-mini",
-      input: prompt,
+      input: generateContentToLLM(title, style, targetAudience),
       max_output_tokens: 250,
       temperature: 0.2,
     });
