@@ -9,7 +9,16 @@ export interface FileRequest {
   mimeType: "application/pdf" | "text/plain";
 }
 
-export interface LLMResponse {
+export interface LLMGenerateSermonResponse {
+  content: string;
+  model: string;
+  tokens: {
+    prompt: number;
+    completion: number;
+  };
+}
+
+export interface LLMOptimizatesSermonResponse {
   content: string;
   model: string;
   tokens: {
