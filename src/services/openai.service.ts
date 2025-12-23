@@ -12,11 +12,7 @@ class OpenAIService {
     this.client = new OpenAI({ apiKey });
   }
 
-  async generateResponse(
-    title: string,
-    style: string,
-    targetAudience: string
-  ): Promise<{
+  async generateResponse(prompt: string): Promise<{
     content: string;
     model: string;
     promptTokens: number;
@@ -24,7 +20,7 @@ class OpenAIService {
   }> {
     const response = await this.client.responses.create({
       model: "gpt-4o-mini",
-      input: generateContentToLLM(title, style, targetAudience),
+      input: prompt,
       max_output_tokens: 250,
       temperature: 0.2,
     });
@@ -35,6 +31,21 @@ class OpenAIService {
       promptTokens: response.usage?.input_tokens ?? 0,
       completionTokens: response.usage?.output_tokens ?? 0,
     };
+  }
+
+  async generateResponseNewSermon(
+    title: string,
+    style: string,
+    targetAudience: string
+  ): Promise<{
+    content: string;
+    model: string;
+    promptTokens: number;
+    completionTokens: number;
+  }> {
+    return await this.generateResponse(
+      generateContentToLLM(title, style, targetAudience)
+    );
   }
 }
 
