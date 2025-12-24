@@ -1,6 +1,24 @@
 import { Request, Response } from "express";
 import openaiService from "../services/openai.service";
+
 import { LLMGenerateSermonResponse, ApiResponse, TextRequest } from "../types";
+
+function parseLLMJson<T>(raw: string): T {
+  try {
+    //Tenta parser o retorno do json da llm para o tipo
+    return JSON.parse(raw);
+  } catch (err) {
+    const repaired = raw
+      // remove trailing commas antes de } ou ]
+      .replace(/,\s*(\}|\])/g, "$1")
+      // remove caracteres invisíveis comuns
+      .replace(/[\u0000-\u001F]+/g, "")
+      // remove BOM se existir
+      .replace(/^\uFEFF/, "");
+
+    return JSON.parse(repaired);
+  }
+}
 
 export const handleTextRequest = async (
   req: Request<unknown, unknown, TextRequest>,
@@ -17,14 +35,7 @@ export const handleTextRequest = async (
 
     res.status(200).json({
       success: true,
-      data: {
-        content: result.content,
-        model: result.model,
-        tokens: {
-          prompt: result.promptTokens,
-          completion: result.completionTokens,
-        },
-      },
+      data: parseLLMJson(result.content),
       timestamp: new Date().toISOString(),
     });
   } catch (error) {

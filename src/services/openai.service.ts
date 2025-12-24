@@ -21,7 +21,7 @@ class OpenAIService {
     const response = await this.client.responses.create({
       model: "gpt-4o-mini",
       input: prompt,
-      max_output_tokens: 250,
+      max_output_tokens: 1000,
       temperature: 0.2,
     });
 

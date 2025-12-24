@@ -10,12 +10,15 @@ export interface FileRequest {
 }
 
 export interface LLMGenerateSermonResponse {
-  content: string;
-  model: string;
-  tokens: {
-    prompt: number;
-    completion: number;
+  title: string;
+  introdution: string;
+  points: {
+    point: string;
+    verse: string;
+    development: string;
   };
+  application: string;
+  prayer: string;
 }
 
 export interface LLMOptimizatesSermonResponse {
