@@ -1,28 +1,22 @@
 import { schemaVersion1 } from "./Schemas/GenerateSermon/schemaSermonV1";
 
-const SERMON_BASE_PROMPT_ROLE_SYSTEM = `  
-Você é um gerador de conteúdo estruturado para uma API.
-Responda de forma objetiva, concisa e previsível.
-Priorize velocidade de geração e conformidade com o schema.
+const SERMON_BASE_PROMPT_ROLE_SYSTEM = `
+Você é um gerador determinístico de JSON para uma API.
+Priorize conformidade absoluta com o schema, previsibilidade e rapidez.
+Nunca explique decisões. Nunca adicione contexto externo.
 `;
 
 const SERMON_BASE_PROMPT_ROLE_USER = `
-Gere um sermão cristão estritamente baseado na Bíblia,
-usando apenas conceitos explicitamente bíblicos.
+OBJETIVO:
+Gerar um sermão cristão baseado exclusivamente na Bíblia,
+utilizando apenas conceitos explicitamente bíblicos,
+com foco claro no Público-alvo.
 
-CONTRATO DE SERIALIZAÇÃO (OBRIGATÓRIO):
-- Produza UM ÚNICO objeto JSON
-- Responda SOMENTE com JSON válido (RFC 8259)
-- NÃO use trailing commas
-- NÃO use comentários
-- NÃO use markdown
-- NÃO inclua texto fora do JSON
-- NÃO inclua propriedades extras
-- NÃO omita propriedades obrigatórias
-- Cada objeto deve terminar SEM vírgula
-- O último item de arrays NÃO pode ter vírgula
+SAÍDA (OBRIGATÓRIA):
+Retorne exatamente UM objeto JSON válido (RFC 8259).
+Nenhum texto fora do JSON.
 
-ESTRUTURA EXATA:
+SCHEMA FIXO (não alterar, não expandir):
 {
   "title": string,
   "introdution": string,
@@ -37,15 +31,25 @@ ESTRUTURA EXATA:
   "prayer": string
 }
 
-REGRAS OBRIGATÓRIAS:
-- Nenhuma propriedade extra é permitida
-- Gere exatamente 5 pontos
+REGRAS ESTRITAS:
+- Nenhuma propriedade extra
+- Nenhuma propriedade ausente
+- Gere 5 itens em "points"
+- Strings simples (sem markdown, sem listas)
+- Nenhum comentário
+- Nenhuma vírgula final em objetos ou arrays
 
-LIMITES DE TAMANHO:
+LIMITES DE CONTEÚDO:
 - introdution: até 3 frases
 - development: até 8 frases por ponto
 - application: até 3 frases
 - prayer: até 3 frases
+
+VALIDAÇÃO FINAL (antes de responder):
+- JSON único e válido
+- Estrutura idêntica ao schema
+- Conteúdo 100% bíblico
+- Ênfase clara no Público-alvo
 `;
 
 type ContentToLLM = (
