@@ -48,10 +48,11 @@ class FileProcessingService {
   }
 
   async processFile(
-    fileData: number[],
-    mimeType: "application/pdf" | "text/plain"
+    fileData: number[] | Buffer | Uint8Array,
+    mimeType: string
   ): Promise<string> {
-    const uint8Array = new Uint8Array(fileData);
+    const uint8Array =
+      fileData instanceof Uint8Array ? fileData : new Uint8Array(fileData);
 
     if (mimeType === "application/pdf") {
       return this.extractTextFromPDF(uint8Array);

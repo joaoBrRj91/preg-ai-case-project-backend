@@ -5,8 +5,7 @@ export interface TextRequest {
 }
 
 export interface FileRequest {
-  fileData: number[];
-  mimeType: "application/pdf" | "text/plain";
+  file: Express.Multer.File;
 }
 
 export interface LLMGenerateSermonResponse {

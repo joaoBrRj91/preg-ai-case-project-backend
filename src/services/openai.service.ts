@@ -1,5 +1,6 @@
 import { OpenAI } from "openai";
 import generateContentToLLM from "../utils/Prompts/promptsTemplates";
+import { generateOptimizationPrompt } from "../utils/Prompts/promptsTemplates";
 
 class OpenAIService {
   private client: OpenAI;
@@ -12,7 +13,7 @@ class OpenAIService {
     this.client = new OpenAI({ apiKey });
   }
 
-  async generateResponse(prompt: string): Promise<{
+  private async generateResponse(prompt: string): Promise<{
     content: string;
     model: string;
     promptTokens: number;
@@ -31,6 +32,10 @@ class OpenAIService {
       promptTokens: response.usage?.input_tokens ?? 0,
       completionTokens: response.usage?.output_tokens ?? 0,
     };
+  }
+
+  async optimizateResponseSermon(sermon: string) {
+    return await this.generateResponse(generateOptimizationPrompt(sermon));
   }
 
   async generateResponseNewSermon(
