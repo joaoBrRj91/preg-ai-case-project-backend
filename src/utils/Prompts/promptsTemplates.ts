@@ -35,16 +35,16 @@ SCHEMA FIXO (não alterar, não expandir):
 REGRAS ESTRITAS:
 - Nenhuma propriedade extra
 - Nenhuma propriedade ausente
-- Gere 5 itens em "points"
+- Gere exatamente 6 itens em "points"
 - Strings simples (sem markdown, sem listas)
 - Nenhum comentário
 - Nenhuma vírgula final em objetos ou arrays
 
 LIMITES DE CONTEÚDO:
-- introdution: até 3 frases
-- development: até 8 frases por ponto
-- application: até 3 frases
-- prayer: até 3 frases
+- introdution: até 1000 palavras
+- development: até 200 palavras por ponto
+- application: até 400 palavras
+- prayer: até 250 palavras
 
 VALIDAÇÃO FINAL (antes de responder):
 - JSON único e válido
@@ -108,9 +108,8 @@ REGRAS ESTRITAS:
 - Nenhuma propriedade extra
 - Nenhuma propriedade ausente
 - improvements: exatamente 6 itens (strings descritivas)
-- content: 800-1200 caracteres, narrativo e fluido
+- content: até 1000 palavras, narrativo e fluido
 - statistics: valores como strings numéricas ("245", "3", "4", "12-15")
-- Sem markdown, sem listas, sem comentários
 
 CÁLCULO DE ESTATÍSTICAS:
 
@@ -121,9 +120,9 @@ STATISTICSORIGINALCONTENT (do conteúdo extraído):
 - minutes: Tempo estimado de leitura em voz alta (calcule: total de palavras / 130 palavras por minuto)
 
 STATISTICSOPTIMIZATECONTENT (do conteúdo otimizado):
-- words: Contagem exata de palavras no texto otimizado (deve ser 800-1200 caracteres, aproximadamente 150-200 palavras)
-- points: Número de pontos/seções principais após otimização (mínimo 5, máximo 6)
-- verses: Número total de versículos após otimização (deve aumentar em relação ao original)
+- words: Contagem exata de palavras no texto otimizado (máximo 1000 palavras)
+- points: Número de pontos/seções principais após otimização (mínimo 5, máximo 8)
+- verses: Número total de versículos após otimização (deve aumentar em relação ao original, mínimo 200 citações)
 - minutes: Tempo estimado após otimização (calcule: total de palavras otimizadas / 130 palavras por minuto)
 
 EXEMPLO DE CÁLCULO:
