@@ -23,7 +23,7 @@
     "express": "^5.2.1",
     "multer": "^2.0.2",
     "openai": "^6.15.0",
-    "pdfjs-dist": "^5.4.449",
+    "pdfjs-dist": "^3.11.174",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
