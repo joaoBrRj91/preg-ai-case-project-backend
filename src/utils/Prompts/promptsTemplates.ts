@@ -8,55 +8,33 @@ Nunca explique decisões. Nunca adicione contexto externo.
 `;
 
 const SERMON_BASE_PROMPT_ROLE_USER = `
-OBJETIVO:
-Gerar um sermão cristão baseado exclusivamente na Bíblia,
-utilizando apenas conceitos explicitamente bíblicos,
-com foco claro no Público-alvo.
+Gere um sermão cristão JSON com conteúdo 100% bíblico para o público-alvo especificado.
 
-SAÍDA (OBRIGATÓRIA):
-Retorne exatamente UM objeto JSON válido (RFC 8259).
-Nenhum texto fora do JSON.
+RETORNE APENAS JSON VÁLIDO (RFC 8259) - SEM TEXTO EXTRA
 
-SCHEMA FIXO (não alterar, não expandir):
 {
   "title": string,
   "introdution": string,
-  "points": [
-    {
-      "point": string,
-      "verse": string,
-      "development": string
-    }
-  ],
+  "points": [{point, verse, development}],
   "application": string,
   "prayer": string
 }
 
-REGRAS ESTRITAS:
-- Nenhuma propriedade extra
-- Nenhuma propriedade ausente
-- Gere exatamente 6 itens em "points"
-- Strings simples (sem markdown, sem listas)
-- Nenhum comentário
-- Nenhuma vírgula final em objetos ou arrays
-
-LIMITES DE CONTEÚDO:
-- introdution: até 1000 palavras
-- development: até 200 palavras por ponto
-- application: até 400 palavras
-- prayer: até 250 palavras
-
-VALIDAÇÃO FINAL (antes de responder):
-- JSON único e válido
-- Estrutura idêntica ao schema
-- Conteúdo 100% bíblico
-- Ênfase clara no Público-alvo
+REQUISITOS:
+- Exatamente 6 pontos em "points"
+- introdution ≤ 1000 palavras
+- development ≤ 200 palavras/ponto
+- application ≤ 400 palavras
+- prayer ≤ 250 palavras
+- Sem propriedades extras
+- Sem markdown/listas em strings
+- Sem vírgulas finais em objetos/arrays
 `;
 
 type ContentToLLM = (
   title: string,
   style: string,
-  targetAudience: string
+  targetAudience: string,
 ) => string;
 
 const generateContentToLLM: ContentToLLM = (title, style, targetAudience) => {
@@ -148,12 +126,12 @@ VALIDAÇÃO FINAL (antes de responder):
 
 type ContentOptimizationToLLM = (
   sermonContent: string,
-  targetAudience?: string
+  targetAudience?: string,
 ) => string;
 
 const generateOptimizationPrompt: ContentOptimizationToLLM = (
   sermonContent,
-  targetAudience = "Geral"
+  targetAudience = "Geral",
 ) => {
   return `
 ${SERMON_OPTIMIZATION_PROMPT_ROLE_SYSTEM}
